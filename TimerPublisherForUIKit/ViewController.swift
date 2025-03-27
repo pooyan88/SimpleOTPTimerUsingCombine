@@ -64,7 +64,7 @@ final class ViewModel: ObservableObject {
             .publish(every: 1, on: .main, in: .common)
             .autoconnect()
             .sink { [unowned self] _ in
-                if otpTimer >= 0 {
+                if otpTimer > 0 {
                     startTimer()
                 } else {
                     resetTimer(buttonTitle: "Start", isEnabled: true)
@@ -73,15 +73,15 @@ final class ViewModel: ObservableObject {
     }
     
     private func startTimer() {
-            otpTimer -= 1
-            self.buttonTitle.send("\(otpTimer)")
-            isEnabled = false
-            objectWillChange.send()
+        otpTimer -= 1
+        self.buttonTitle.send("\(otpTimer)")
+        isEnabled = false
+        objectWillChange.send()
     }
     
     private func resetTimer(buttonTitle: String, isEnabled: Bool) {
         cancellable?.cancel()
-         otpTimer = 10
+        otpTimer = 10
         self.isEnabled = isEnabled
         self.buttonTitle.send(buttonTitle)
         objectWillChange.send()
